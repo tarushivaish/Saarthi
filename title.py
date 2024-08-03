@@ -405,38 +405,6 @@ templates_hindi = [
 
 generated_titles = {}
 
-def generate_unique_titles(keywords, language):
-    keywords_list = keywords.split(', ')
-
-    if not keywords_list:
-        return ["No suitable title can be generated."] * 4
-
-    if language == "Hindi":
-        templates = templates_hindi
-    elif language == "English":
-        templates = templates_english
-    else:
-        return ["Invalid language selected."] * 4
-
-    # Generate unique titles
-    unique_titles = set()
-    while len(unique_titles) < 4:
-        if (keywords, language) in generated_titles and len(generated_titles[(keywords, language)]) >= len(templates):
-            # Reset if all titles have been used
-            generated_titles[(keywords, language)] = []
-
-        title = random.choice([template for template in templates if '{}' in template])
-        title = title.format(keywords_list[0])
-        
-        if title not in unique_titles:
-            unique_titles.add(title)
-            if (keywords, language) in generated_titles:
-                generated_titles[(keywords, language)].append(title)
-            else:
-                generated_titles[(keywords, language)] = [title]
-    
-    return list(unique_titles)
-
 class TitleGeneratorGUI(QWidget):
     def __init__(self):
         super().__init__()
@@ -491,8 +459,36 @@ class TitleGeneratorGUI(QWidget):
         self.result_box.setText('\n'.join(f"• {title}" for title in titles))
 
 def generate_unique_titles(keywords, language):
-    # This is a placeholder function for generating titles. Replace with your actual implementation.
-    return [f"Title based on {keywords} in {language}"]
+    keywords_list = keywords.split(', ')
+
+    if not keywords_list:
+        return ["No suitable title can be generated."] * 4
+
+    if language == "Hindi":
+        templates = templates_hindi
+    elif language == "English":
+        templates = templates_english
+    else:
+        return ["Invalid language selected."] * 4
+
+    # Generate unique titles
+    unique_titles = set()
+    while len(unique_titles) < 4:
+        if (keywords, language) in generated_titles and len(generated_titles[(keywords, language)]) >= len(templates):
+            # Reset if all titles have been used
+            generated_titles[(keywords, language)] = []
+
+        title = random.choice([template for template in templates if '{}' in template])
+        title = title.format(keywords_list[0])
+        
+        if title not in unique_titles:
+            unique_titles.add(title)
+            if (keywords, language) in generated_titles:
+                generated_titles[(keywords, language)].append(title)
+            else:
+                generated_titles[(keywords, language)] = [title]
+    
+    return list(unique_titles)
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
