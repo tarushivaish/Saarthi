@@ -8,6 +8,7 @@ from collections import Counter
 import matplotlib.pyplot as plt
 from io import BytesIO
 from textblob import TextBlob
+import advertools as adv
 import nltk
 from nltk.corpus import stopwords
 from indicnlp.tokenize import indic_tokenize
